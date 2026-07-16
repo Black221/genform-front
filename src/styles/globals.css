@@ -1,0 +1,257 @@
+@import "tailwindcss";
+
+@theme {
+  /* Typographie — "Relevé de terrain" */
+  --font-display: "Bricolage Grotesque", sans-serif;
+  --font-body:    "Hanken Grotesk", sans-serif;
+  --font-mono:    "Geist Mono", monospace;
+
+  /* Couleurs — bridge vers les CSS variables dynamiques */
+  --color-primary:       var(--color-primary, #1D4E70);
+  --color-bg:            var(--color-bg, #F4F6F7);
+  --color-surface:       var(--color-surface, #FFFFFF);
+  --color-surface-raised: var(--color-surface-raised, #EAEFF2);
+  --color-text:          var(--color-text, #16252E);
+  --color-text-muted:    var(--color-text-muted, #5A6B73);
+  --color-border:        var(--color-border, #D9E0E4);
+
+  /* Tokens Tailwind passthrough */
+  --color-*: initial;
+  --font-*:  initial;
+
+  /* Fondamentaux reconservés APRÈS le reset de la palette par défaut
+     (utilisés partout : texte sur primaire, overlays, panneaux verre) */
+  --color-white: #ffffff;
+  --color-black: #000000;
+}
+
+/* ──────────────────────────────────────────────────────────
+   Palette "Relevé de terrain" — tokens FIXES
+   Chrome de l'app : teal profond · encre · papier froid.
+   ────────────────────────────────────────────────────────── */
+@layer base {
+  :root {
+    /* ──────────────────────────────────────────────────────────
+       Palette dérivée du logo « L'Observatoire éco-citoyen »
+       Bleu nuit (signature) · or · terre cuite · bleu acier · olive
+       ────────────────────────────────────────────────────────── */
+    /* Palette claire */
+    --color-primary:        #1D4E70;   /* bleu nuit du logo */
+    --color-primary-hover:  #163E5A;
+    --color-primary-soft:   #E1ECF3;
+    --color-bg:             #F4F6F7;
+    --color-surface:        #FFFFFF;
+    --color-surface-raised: #EAEFF2;
+    --color-text:           #16252E;
+    --color-text-muted:     #5A6B73;
+    --color-border:         #D9E0E4;
+    --color-accent:         #C25E3A;   /* terre cuite du logo */
+    --color-accent-soft:    #F8E7DF;
+    --color-danger:         #C2453B;
+    --color-danger-soft:    #FBEAE9;
+    --color-success:        #7E9A3C;   /* olive du logo */
+    --color-success-soft:   #EEF2DF;
+
+    /* Or du logo (texte « L'OBSERVATOIRE ») — highlights & badges
+       uniquement, jamais en fond de bouton (lisibilité) */
+    --color-gold:           #F2B134;
+    --color-gold-soft:      #FCEFD2;
+
+    /* Couleurs thématiques (catégories d'observation) — alignées
+       sur les quatre panneaux du logo */
+    --cat-air:          #4E8FB5;   /* bleu acier du logo */
+    --cat-eau:          #159AAE;
+    --cat-sols:         #B07B3E;
+    --cat-sante:        #D6477E;
+    --cat-inondation:   #1D4E70;
+    --cat-pollution:    #8B6FB0;
+    --cat-urbanisation: #C25E3A;   /* terre cuite du logo */
+    --cat-autre:        #9DA3AE;   /* gris ardoise du logo */
+
+    /* Tokens figés (ancienne identité Teranga — conservés pour
+       les thèmes de formulaires et les composants qui les référencent) */
+    --brand-green:        #00853f;
+    --brand-green-dark:   #006b33;
+    --brand-green-light:  #e6f5ec;
+    --brand-yellow:       #fcd116;
+    --brand-teranga:      #e87722;
+    --brand-teranga-light:#fff0e5;
+    --brand-red:          #e31b23;
+    --brand-red-light:    #fdecec;
+
+    /* Rayons */
+    --radius-sm:    8px;
+    --radius-md:    12px;
+    --radius-lg:    18px;
+    --radius-pill:  999px;
+    --radius-theme: 12px;
+
+    /* Ombres (teintées encre, jamais grises pures) */
+    --shadow-sm:   0 1px 2px rgba(21,33,30,.06), 0 1px 1px rgba(21,33,30,.04);
+    --shadow-md:   0 6px 20px rgba(21,33,30,.08);
+    --shadow-lift: 0 12px 36px rgba(21,33,30,.12);
+
+    /* Motion */
+    --ease: cubic-bezier(.2,.7,.2,1);
+    --dur:  180ms;
+
+    /* Dégradés */
+    --gradient-primary: linear-gradient(135deg, #1D4E70 0%, #163E5A 100%);
+    --gradient-accent:  linear-gradient(135deg, #C25E3A 0%, #A84A2C 100%);
+    --gradient-mesh:
+      radial-gradient(at 0% 0%, rgba(29,78,112,.10) 0px, transparent 50%),
+      radial-gradient(at 100% 0%, rgba(242,177,52,.10) 0px, transparent 50%),
+      radial-gradient(at 50% 100%, rgba(194,94,58,.07) 0px, transparent 50%);
+  }
+
+  *, *::before, *::after {
+    box-sizing: border-box;
+  }
+
+  html {
+    font-family: var(--font-body);
+    font-size: 16px;
+    background-color: var(--color-bg);
+    color: var(--color-text);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-display);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+
+  ::selection {
+    background-color: color-mix(in oklch, var(--color-primary) 20%, transparent);
+  }
+
+  /* Scrollbar discrète */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: color-mix(in srgb, var(--color-text-muted) 30%, transparent) transparent;
+  }
+  *::-webkit-scrollbar { width: 6px; height: 6px; }
+  *::-webkit-scrollbar-thumb {
+    background: color-mix(in srgb, var(--color-text-muted) 25%, transparent);
+    border-radius: 999px;
+  }
+  *::-webkit-scrollbar-thumb:hover {
+    background: color-mix(in srgb, var(--color-text-muted) 45%, transparent);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+/* ── Surfaces & couleurs de thème ─────────────────────────── */
+@utility bg-app          { background-color: var(--color-bg); }
+@utility bg-surface      { background-color: var(--color-surface); }
+@utility bg-surface-raised { background-color: var(--color-surface-raised); }
+@utility bg-sunken       { background-color: var(--color-surface-raised); }
+@utility bg-primary-soft { background-color: var(--color-primary-soft); }
+@utility bg-primary      { background-color: var(--color-primary); }
+
+@utility text-primary    { color: var(--color-primary); }
+@utility text-muted      { color: var(--color-text-muted); }
+@utility text-accent     { color: var(--color-accent); }
+@utility text-danger     { color: var(--color-danger); }
+@utility text-success    { color: var(--color-success); }
+@utility text-gold       { color: var(--color-gold); }
+@utility bg-gold-soft    { background-color: var(--color-gold-soft); }
+
+@utility border-theme    { border-color: var(--color-border); }
+@utility border-primary  { border-color: var(--color-primary); }
+@utility rounded-theme   { border-radius: var(--radius-theme); }
+@utility rounded-md      { border-radius: var(--radius-md); }
+@utility rounded-lg-app  { border-radius: var(--radius-lg); }
+@utility rounded-pill    { border-radius: var(--radius-pill); }
+
+/* ── Typographie ──────────────────────────────────────────── */
+@utility font-display    { font-family: var(--font-display); }
+@utility font-body       { font-family: var(--font-body); }
+@utility font-mono       { font-family: var(--font-mono); }
+
+/* ── Ombres ───────────────────────────────────────────────── */
+@utility shadow-soft     { box-shadow: var(--shadow-sm); }
+@utility shadow-warm     { box-shadow: var(--shadow-md); }
+@utility shadow-lift     { box-shadow: var(--shadow-lift); }
+
+/* ── Dégradés ─────────────────────────────────────────────── */
+@utility bg-hero         { background-image: var(--gradient-primary); }
+@utility bg-mesh         { background-image: var(--gradient-mesh); }
+@utility text-gradient   {
+  background-image: var(--gradient-primary);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* ── Motif courbes de niveau (élément signature) ─────────── */
+@utility topo-pattern {
+  background-image:
+    repeating-radial-gradient(
+      circle at 50% 50%,
+      transparent 0px,
+      transparent 28px,
+      rgba(29,78,112,.06) 28px,
+      rgba(29,78,112,.06) 29px
+    );
+}
+
+/* ── Motif wax (héritage — conservé pour les thèmes forms) ── */
+@utility wax-pattern {
+  background-image: radial-gradient(circle at 1px 1px, rgba(255,255,255,.30) 1.5px, transparent 0);
+  background-size: 22px 22px;
+}
+
+/* ──────────────────────────────────────────────────────────
+   Animations
+   ────────────────────────────────────────────────────────── */
+@keyframes fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes scale-in {
+  from { opacity: 0; transform: translate(-50%, -50%) scale(.96); }
+  to   { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+}
+@keyframes slide-in-right {
+  from { opacity: 0; transform: translateX(20px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+@keyframes rise-in {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes float-slow {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-8px); }
+}
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%       { opacity: .6; transform: scale(.85); }
+}
+@keyframes draw-line {
+  from { stroke-dashoffset: 1000; }
+  to   { stroke-dashoffset: 0; }
+}
+
+@utility animate-fade-in       { animation: fade-in .22s ease-out both; }
+@utility animate-scale-in      { animation: scale-in .22s cubic-bezier(.16,1,.3,1) both; }
+@utility animate-slide-in-right { animation: slide-in-right .28s cubic-bezier(.16,1,.3,1) both; }
+@utility animate-rise           { animation: rise-in .45s cubic-bezier(.16,1,.3,1) both; }
+@utility animate-float          { animation: float-slow 6s ease-in-out infinite; }
+@utility animate-pulse-dot      { animation: pulse-dot 2s ease-in-out infinite; }
